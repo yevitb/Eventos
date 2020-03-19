@@ -8,9 +8,9 @@ Cabe destacar que podemos bloquear peticiones provenientes de un determinado con
 
 Existen dos formas de implementarlo:
 
-	Deniega todas las transacciones y acepta solo als que cree seguras. PAra ello contiene una seri de reglas predefinidas previamente cargadas mediante un script o aut-aprendidas.
+* Deniega todas las transacciones y acepta solo als que cree seguras. PAra ello contiene una seri de reglas predefinidas previamente cargadas mediante un script o aut-aprendidas.
 
-	Acepta todas las peticiones y unicamente bloquea las que son posibles amenazas o ataques reales. 
+* Acepta todas las peticiones y unicamente bloquea las que son posibles amenazas o ataques reales. 
 
 Un WAF es un intermediario entre usuarios externos y las aplicacioens web. Esto quiere decir que las peticiones y respuestas HTTP son analizadas por el WAF antes de que estas lleguen a las aplicaciones Web o a los usuarios de las aplicaciones.
 
