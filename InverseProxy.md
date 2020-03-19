@@ -38,91 +38,12 @@ Instalación de ModSecurity.
 
 		apt-get install libapache2-modsecurity -y 
 		a2enmod unique_id #construye magic tokens a partir del hostname
-		##(EAI 5)No address associated with hostname: mod_unique_id: unable to find IPv4 address of
-		#Si sale ese error deshabilitar mod_unique_id, pero supuestamente este modulo es necesario.
-		systemctl restart apache2
-		#Para solucionar el problema exisen dos alternativas : 
-			#Asignar un nombre de host queresuleva una direccion IP
-			#Hacer que el nombre de host resuelva a una direccion IP
-
-		#Mejor dicho, editar /etc/hosts
-		#vi /etc/hosts
-		#echo "127.0.0.1 localhost mywebserver" >>/etc/hosts
-
 		systemctl restart apache2
 
-	##===========================================CONFIGURACION======================
+ModSecurity trabaja utilizando reglas para la deteccion y filtrado de diferentes tipos de ataques, las cuales se defines bajo el lenguaje propio. Por defecto incluye un conjunto de reglas genéricas mantenidas por la comunidad OWASP, las cuales son liberadas de forma gratuita y protegen contra atques básicos. Pero tambien existen reglas comerciales que protegen contra ataques más avanzados como Botnets, DoS y backdoors, entre otros.
 
-		#ModSecurity trabaja utilizando reglas para la deteccion y filtrado de diferentes ##tipos de ataques, las cuales se defines bajo el elnguaje propo. Por defecto incluye ##un conjunto de reglas genericas mantenidas por la comunidad OWASP, las cuales son ##liberadas de forma gratuita y protegen cntra atques b{asicos. Pero tamvien existen #reglas comerciales que protegen contra ataques más avanzados como Botnets, Dos y #backdoors entre otros.
-		#PAra evitar inconvenientes se copia el arhcivo de ocnfiguracion modsecurity.conf en otro para empezar la configuracion.
-		cd /etc/modsecurity
-		cp modsecurity.conf-recommended modsecurity.conf
-		#Editaremos el archivo
-		vi mod-security.conf
-		#POR DEFECTO DESHABILITAR ModSecurity completamente ya que será habilitado en VirtualHOsts específicos 
-		#SecRuleEngine DetectionOnly
-		#SecRuleEngine Off
-		#Las reglas genericas que se incluyen con el paquete se encuentranen el directorio 
-		cd /usr/share/modsecurity.crs/
-		#Dentro del mismo existen subdirectorio que organizan las regals en diferentes tipos.
-		#Para habilitar una regla basta con crear un enlace simbolico en activated_riles.
+**Configuración reglas OWASP.**
 
-		#hAbiltamos la regla de detección de ataques SQLi para probar modSecurity.
-		cp -a activated_rules/ activated_rules-testing
-		cd activated_rules-testing/
-		ln -s ../base_rules/modsecurity_crs_41_sql_injection_attacks.conf .
-		#A pesar d estar configurado, se puede tomar como apagado por que escribimos SecRuleEngine Off. 
-		#El siguiente paso consiste en editar el Virtual HOst de testin a fin de habilitar ModSecurity en modo "DetectionOnly" 
-		vi /etc/apache2/sites-available/sitioweb.conf
-
-			  # ModSecurity
-        		<IfModule security2_module>
-					SecRuleEngine DetectionOnly
-					Include "/usr/share/modsecurity-crs/*.conf"
-					Include "/usr/share/modsecurity-crs/activated_rules-testing/*.conf"
-        		</IfModule>
-
-        #Ponerlo en detenccion only significa que los ataque son detectados y resigtrsado en los logs pero no bloqueados o friltrados.
-        #POsteriormente se incluye un archivo que posee las directivas de configuraion que controlan al conjunto de reglas genericas de OWASP.
-        #FInalmente se incluyen todos los archivos dentro del directorio que contiene las reglas /usr/share/modsecurity.crs/eactivated_rules-testing/ el cual son links simbolicos a reglas habilitadas
-        #Finalmente se reinicia apache para que surjan efecto lac onfiguracion.
-        systemctl reload apache2
-
-        #=========================	pruebas
-        http://sitioweb.com/?var=1' or '1'='1'
-       #Podemos checar los logs 
-       	tail -f /var/log/apache2/modsec_audit.log
-
-       	#En apache2 existen dos direcotrios paa manejrar los modulos, estos son :
-       		- /etc/apache2/mods_available (modulos integrados en con apache2)
-       		- /etc/apache2/mods-enabled (activar los modulos correspondoentes)
-
-$       		cd /etc/apache2/mods-enabled
-       		ln -s /etc/apache2/mods-available/proxy.load proxy.load
-
-       	#Configuracion de /etc/apache2/mods-enabled/proxy.conf
-       		<IfModule mod_proxy.c>
-       			#Enable/disable the handling of HTTP/1.1 "Via:" headers
-       				#Full add the server version; Block removes all outgoing via:headers
-       			#Set to one of: Off|On|Full|Block
-
-       			ProxyVia:On
-
-       			#To enable the cache as well, edit and uncomment the following lines:
-       			#no cacheing without CacheRoot
-       			CacheRoot "/var/cache/apache2/proxy"
-       			CacheGcInterval 4 
-       			CacheMaxExpire 24
-       			CacheLastModifiedFactor 0.1
-       			CacheDefaultExpire 1
-       			#Afain, you probably should change this
-       			#NoCache a_domain.com another_domain.edu.joes.garage.com
-       		</IfModule>
-       		#Esto es una configuracin global del proxy, basicamente se conigura lacache dle proxy inverso.
-
-
-
-#=========================OWASP======================
 Para obtener el set de reglas de OWASP, entramos a la carpeta de modsecurity.
 cd /etc/modsecurity
 mv modsecurity.conf-recommended  modsecurity.conf
