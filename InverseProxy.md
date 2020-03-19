@@ -176,4 +176,15 @@ Quedando:
 	192.168.229.150		pagina2.mx 
 	192.168.229.150		paginita3.mx
 
+**Pruebas proxy Inverso**
 
+Para confirmar que nuestro proxxy inverso esta trabajando correctamente, una vez configurado todos los pasos previos, apagamos el servicio de apache en nuestro proxy inverso. Confirmando que cuando un cliente que intenta dirigirse a la pagina no puede llegar, pues el proxy no lo redirecciona al servidor correspondiente. A pesar de que el servidor aún puede acceder a su propia página.
+
+WAF Apagado:
+
+![ModSecurity working](https://raw.githubusercontent.com/yevitb/Eventos/master/WAFDead.png)
+
+
+WAF Activo:
+
+![ModSecurity working](https://raw.githubusercontent.com/yevitb/Eventos/master/WAFActivo.png)
