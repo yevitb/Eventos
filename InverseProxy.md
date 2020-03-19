@@ -124,3 +124,56 @@ Checamos el archivo de logs de apache, donde podemos apreciar que modSecurity ha
 
 
 ## Proxy Inverso
+
+**Instalamos el módulo**
+
+	aptitude install -y libapache2-mod-proxy-html libxml2-dev
+
+Configurar apache para conexiones al proxy. Listamos los modulos disponibles.
+
+	a2enmod
+
+Posteriomente escribimos los que se requieren habilitar.
+
+	proxy proxy_http rewrite deflate headers proxy_balancer proxy_connect proxy_html
+
+Por cada página, ya sea por IP o dominio, se debe crear un Virtual host en nuestro servidor Proxy que dirija al servidor donde se encuentra nuestra aplicación web.
+
+	vi /etc/apache2/sites-available/000-default.conf
+
+Contenido de una página sin SSL
+
+ 	<VirtualHost *:80>
+	    ProxyPreserveHost On
+
+	    # Servers to proxy the connection, or;
+	    # List of application servers:
+	    # Usage:
+	    # ProxyPass / http://[IP Addr.]:[port]/
+	    # ProxyPassReverse / http://[IP Addr.]:[port]/
+	    # Example: 
+	    ProxyPass / http://192.168.229.146:80/
+	    ProxyPassReverse / http://192.168.229.146:80/
+	    LogLevel warn
+	    ErrorLog /var/log/apache2/comments-error.log
+	    CustomLog /var/log/apache2/comments-access.log combined
+	    ServerName comments.com
+	</VirtualHost>
+
+Guardamos y cerramos el archivo. Habilitamos la página.
+
+	sudo a2ensite 000-default.conf
+
+Reiniciamos el servicio.
+
+	systemctl restart apache2
+
+Antes de que un cliente pueda acceder a nuestra página, se debe configurar en el DNS, que el dominio responda por la IP del WAF o, en su caso editar el archivo /etc/hosts (Linux), C:/Windows/System32/drivers/etc/hosts
+
+Quedando:
+
+	192.168.229.150		comments.com
+	192.168.229.150		pagina2.mx 
+	192.168.229.150		paginita3.mx
+
+
