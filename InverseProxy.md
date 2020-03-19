@@ -1,4 +1,4 @@
-* Introudcción
+*Introudcción
 
 El objetivo del desarrollo de una aplicación Web es llegar a infinidad de usuarios, por lo tanto, al ser accesible a un número mucho mayor de usuarios, será más propenso a recibir ataques.
 
