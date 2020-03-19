@@ -1,4 +1,4 @@
-*Introudcción
+## Introudcción
 
 El objetivo del desarrollo de una aplicación Web es llegar a infinidad de usuarios, por lo tanto, al ser accesible a un número mucho mayor de usuarios, será más propenso a recibir ataques.
 
@@ -30,7 +30,7 @@ NOTA: Una regla importante para todos los WAF es que siempre se deben implementa
 
 
 
-* Instalación de apache.
+## Instalación de apache.
 
 		apt-get update
 		apt-get upgrade
@@ -38,7 +38,7 @@ NOTA: Una regla importante para todos los WAF es que siempre se deben implementa
 		systemctl start apache2
 		systemctl enable apache2
 		
-Instalación de ModSecurity.
+ ## Instalación de ModSecurity.
 
 		apt-get install libapache2-modsecurity -y 
 		a2enmod unique_id #construye magic tokens a partir del hostname
@@ -123,4 +123,4 @@ Checamos el archivo de logs de apache, donde podemos apreciar que modSecurity ha
 ![ModSecurity working](https://raw.githubusercontent.com/yevitb/Eventos/master/ModSecurity.png)
 
 
-* Proxy Inverso
+## Proxy Inverso
