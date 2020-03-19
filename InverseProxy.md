@@ -24,15 +24,18 @@ Modos de implementación: Este depende de la topología de red con la que se cue
 
 * Proxy inverso: Funge ocmo un equipo que interconecta dos o mas segmentos de red, pero este cuenta con direccion IP propia. Concentra, gestiona y analiza las peticiones y respuestas HTTP que circula entre los usuarios y aplicaciones web. En pocas palabras, responde las peticiones web como si este fuera el servidor web mismo, por lo tanto es de utilidad para ocultar a los servidores de alicaciones web de la red exteriror. Permite proteger multiples servidores de aplicaiones web. Su implementacion requiere modificar los registros DNS que ahora deben dirigirse a la direccione IP del WAF en modo proxy inverso en vez de a los servidores web.
 
-NOTA: Una regla importante para todos los WAF es que simepre se deben implementar en modo de s{olo monitoreo por un periodo de tiempo . Esto con la finalidad de observar las alertas que se muestran al analizar el trafico web dirigido a tu aplicacione web y asi se pueda deterinar si hay reglas de WAF que puedan interferir con el funcionamiento de la misma. 
+NOTA: Una regla importante para todos los WAF es que siempre se deben implementar en modo de sólo monitoreo por un periodo de tiempo . Esto con la finalidad de observar las alertas que se muestran al analizar el trafico web dirigido a tu aplicacione web y asi se pueda deterinar si hay reglas de WAF que puedan interferir con el funcionamiento de la misma. 
+
+Instalación de apache.
 
 		apt-get update
 		apt-get upgrade
 		apt-get install apache2 -y
 		systemctl start apache2
 		systemctl enable apache2
-	## =========================================INSTALACION DE =========================
-		#==================================MOD SECURITY CON APACHE2=====================
+		
+Instalación de ModSecurity.
+
 		apt-get install libapache2-modsecurity -y 
 		a2enmod unique_id #construye magic tokens a partir del hostname
 		##(EAI 5)No address associated with hostname: mod_unique_id: unable to find IPv4 address of
