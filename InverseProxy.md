@@ -160,6 +160,33 @@ Contenido de una página sin SSL
 	    ServerName comments.com
 	</VirtualHost>
 
+Para dirigir a una página con SSL, se debe habilitar el módulo SSL, además de tener los mismos certificados que la página.
+
+	a2enmod ssl
+
+Contenido de una página con SSL.
+
+	<VirtualHost *:443>
+		ServerName paginita1.mx
+		ProxyPreserveHost On
+		SSLEngine On
+		SSLProxyEngine On
+		SSLCertificateFile /etc/ssl/certificates/drupal.crt
+		SSLCertificateKeyFile /etc/ssl/certificates/drupal.key
+	    # Servers to proxy the connection, or;
+	    # List of application servers:
+	    # Usage:
+	    # ProxyPass / http://[IP Addr.]:[port]/
+	    # ProxyPassReverse / http://[IP Addr.]:[port]/
+	    # Example:
+		ProxyPass / https://192.168.229.146:443/
+		ProxyPassReverse / https://192.168.229.146:443/
+		LogLevel warn
+		ErrorLog /var/log/apache2/ssl-error.log
+	 	CustomLog /var/log/apache2/ssl-access.log combined
+	</VirtualHost>
+	
+
 Guardamos y cerramos el archivo. Habilitamos la página.
 
 	sudo a2ensite 000-default.conf
@@ -188,3 +215,6 @@ WAF Apagado:
 WAF Activo:
 
 ![ModSecurity working](https://raw.githubusercontent.com/yevitb/Eventos/master/WAFActivo.png)
+
+
+
