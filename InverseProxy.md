@@ -45,24 +45,25 @@ ModSecurity trabaja utilizando reglas para la deteccion y filtrado de diferentes
 **Configuración reglas OWASP.**
 
 Para obtener el set de reglas de OWASP, entramos a la carpeta de modsecurity.
-cd /etc/modsecurity
-mv modsecurity.conf-recommended  modsecurity.conf
 
+	cd /etc/modsecurity
+	mv modsecurity.conf-recommended  modsecurity.conf
+	
 Descargamos el set utilizando git, para esto descargamos git.
 
-sudo apt install git
-git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
+	sudo apt install git
+	git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
 
-Descomprimimos el paquete decargado e ingresamos a la carpeta y movemos algunos archivos.
+Descomprimimos el paquete descargado e ingresamos a la carpeta y movemos algunos archivos.
 
-tar xzf owasp-modsecurity-crs.tgzmv 
-cd owasp-modsecurity-crs
-mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
-mv rules/ /etc/modsecurity/
+	tar xzf owasp-modsecurity-crs.tgzmv 
+	cd owasp-modsecurity-crs
+	mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
+	mv rules/ /etc/modsecurity/
 
 Para aplicar las reglas entramos al archivo /etc/apache2/mods-available/security2.conf 
 
-vi /etc/apache2/mods-available/security2.conf
+	vi /etc/apache2/mods-available/security2.conf
 
 Incluimos la carpeta rules que acabamos de mover para que se apliquen en nuestro servidor apache.
 
@@ -80,11 +81,11 @@ Incluimos la carpeta rules que acabamos de mover para que se apliquen en nuestro
 
 Guardamos y cerramos el archivo. Reiniciamos el servicio de apache
 
-systemctl restart apache2
+	systemctl restart apache2
 
-Probemos que modSecurity está trabajando. Para esto habilitamos una página web con la siguietne configuración.
+Probemos que modSecurity está trabajando. Para esto habilitamos una página web con la siguiente configuración.
 
-vi /etc/apache2/sites-available/000-default.conf
+	**vi /etc/apache2/sites-available/000-default.conf**
 
  	<VirtualHost *:80>
  	    ServerAdmin webmaster@localhost
