@@ -1,3 +1,5 @@
+* Introudcción
+
 El objetivo del desarrollo de una aplicación Web es llegar a infinidad de usuarios, por lo tanto, al ser accesible a un número mucho mayor de usuarios, será más propenso a recibir ataques.
 
 Un WAF es una ayuda para proteger una aplicación.
@@ -26,7 +28,9 @@ Modos de implementación: Este depende de la topología de red con la que se cue
 
 NOTA: Una regla importante para todos los WAF es que siempre se deben implementar en modo de sólo monitoreo por un periodo de tiempo . Esto con la finalidad de observar las alertas que se muestran al analizar el trafico web dirigido a tu aplicacione web y asi se pueda deterinar si hay reglas de WAF que puedan interferir con el funcionamiento de la misma. 
 
-Instalación de apache.
+
+
+* Instalación de apache.
 
 		apt-get update
 		apt-get upgrade
@@ -93,8 +97,8 @@ Contenido
  	    ServerAdmin webmaster@localhost
  	    DocumentRoot /var/www/html
 
- 	    ErrorLog ${APACHE_LOG_DIR}/error.log
- 	    CustomLog ${APACHE_LOG_DIR}/access.log combined
+ 	    ErrorLog ${APACHE_LOG_DIR}/prueba-error.log
+ 	    CustomLog ${APACHE_LOG_DIR}/prueba-access.log combined
 
  	    SecRuleEngine On
  	    SecRule ARGS:testparam "@contains test" "id:1234,deny,status:403,msg:'Our test rule has triggered'"
@@ -113,5 +117,10 @@ Lanzamos una petición
 	curl localhost/index.html?exec=/bin/bash
 
 Checamos el archivo de logs de apache, donde podemos apreciar que modSecurity ha detectado un ataque de inyección de comandos.
+	
+	tail -f /var/log/apache2/prueba-error.log
 
 ![ModSecurity working](https://raw.githubusercontent.com/yevitb/Eventos/master/ModSecurity.png)
+
+
+* Proxy Inverso
