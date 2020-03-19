@@ -85,7 +85,9 @@ Guardamos y cerramos el archivo. Reiniciamos el servicio de apache
 
 Probemos que modSecurity está trabajando. Para esto habilitamos una página web con la siguiente configuración.
 
-	**vi /etc/apache2/sites-available/000-default.conf**
+	vi /etc/apache2/sites-available/000-default.conf
+	
+Contenido
 
  	<VirtualHost *:80>
  	    ServerAdmin webmaster@localhost
@@ -97,16 +99,19 @@ Probemos que modSecurity está trabajando. Para esto habilitamos una página web
  	    SecRuleEngine On
  	    SecRule ARGS:testparam "@contains test" "id:1234,deny,status:403,msg:'Our test rule has triggered'"
  	</VirtualHost>
+	
 Guardamos y cerramos. Reiniciamos el servicio de apache
 
  	systemctl restart apache2
 
 Descargamos curl
 
-apt-get install curl
+	apt-get install curl
 
 Lanzamos una petición
 
-curl localhost/index.html?exec=/bin/bash
+	curl localhost/index.html?exec=/bin/bash
 
 Checamos el archivo de logs de apache, donde podemos apreciar que modSecurity ha detectado un ataque de inyección de comandos.
+
+
